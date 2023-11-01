@@ -1,10 +1,16 @@
 import { Component } from '@angular/core';
+import { ProductSearchComponent } from './product-search/product-search.component';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  template: `
+  <section>
+    <app-product-search></app-product-search> <!-- This will render the product search component -->
+  </section>
+`,
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
-  title = 'my-app';
+  title = 'homes';
 }

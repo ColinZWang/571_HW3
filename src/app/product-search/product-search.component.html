@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Search</title>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="product-search">
+            <!-- Product Search Title -->
+            <h2 class="mb-4">Product Search</h2>
+            <form [formGroup]="productForm">
+                <!-- Keyword Section -->
+                <div class="form-group row mb-3">
+                    <label for="keyword" class="col-md-3 col-form-label">Keyword<span class="text-danger">*</span></label>
+                    <div class="col-md-9">
+                        <input type="text" formControlName="keyword" class="form-control" id="keyword" placeholder="Enter Product Name (eg. iPhone 8)" required>
+                        <div *ngIf="productForm.controls['keyword'].invalid && productForm.controls['keyword'].touched" class="text-danger">
+                            Please enter a keyword
+                        </div>                        
+                    </div>
+                </div>
+                <!-- Category Section -->
+                <div class="form-group row mb-3">
+                    <label for="category" class = "col-md-3 col-form-label">Category</label>
+                    <div class = "col-md-9">
+                        <select class="form-control">
+                            <option selected>All Categories</option>
+                            <option>Art</option>
+                            <option>Baby</option>
+                            <option>Books</option>
+                            <option>Clothing, Shoes & Accessories</option>
+                            <option>Computers/Tablets & Networking</option>
+                            <option>Health & Beauty</option>
+                            <option>Music</option>
+                            <option>Video Games & Consoles</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Condistion Section -->
+                <div class="form-group row mb-3">
+                    <label class="col-md-3 col-form-label">Condition</label>
+                    <div class="col-md-9">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="condition" id="new" value="new">
+                            <label class="form-check-label" for="new">New</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="condition" id="used" value="used">
+                            <label class="form-check-label" for="used">Used</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="condition" id="unspecified" value="unspecified">
+                            <label class="form-check-label" for="unspecified">Unspecified</label>
+                        </div>
+                    </div>
+                </div>
+                <!-- Shipping Options Section -->
+                <div class="form-group row mb-3">
+                    <label class="col-md-3 col-form-label">Shipping Options</label>
+                    <div class="col-md-9">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" value="localpickup" id="localpickup">
+                            <label class="form-check-label" for="localpickup">Local Pickup</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" value="freeshipping" id="freeshipping">
+                            <label class="form-check-label" for="freeshipping">Free Shipping</label>
+                        </div>
+                    </div>
+                </div>
+                <!-- Distance Section -->
+                <div class="form-group row mb-3">
+                    <label for="distance" class = "col-md-3 col-form-label">Distance (Miles)</label>
+                    <div class = "col-md-9">
+                        <input type="number" class="form-control" id="distance" placeholder="10">
+                    </div>
+                </div>
+                <!-- From Section -->
+                <div class="form-group row mb-3">
+                    <label for="from" class="col-md-3 col-form-label">From<span class="text-danger">*</span></label>
+                    <div class="col-md-9">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" formControlName="type" value="currentLocation" id="currentLocation">
+                            <label class="form-check-label" for="currentLocation">Current Location</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" formControlName="type" value="otherLocation" id="otherLocation">
+                            <label class="form-check-label" for="otherLocation">Other. Please specify zip code:</label>
+                        </div>
+                        <input type="text" formControlName="zipcode" class="form-control mt-2" placeholder="Zip code">
+                        <div *ngIf="productForm.controls['zipcode'].invalid && productForm.controls['zipcode'].touched" class="text-danger">
+                            Please enter a zip code
+                        </div>
+                    </div>
+                </div>
+                <!-- Search & Clear Section -->
+                <div class="form-group text-center">
+                    <button type="submit" [disabled]="productForm.invalid" class="btn btn-dark mr-2">Search</button>
+                    <button type="reset" class="btn btn-light">Clear</button>
+                </div>
+            </form>
+        </div>
+        <!-- For results and wish list buttons -->
+        <div class="text-center mt-3">
+            <button class="btn btn-dark mr-2">Results</button>
+            <button class="btn btn-light">Wish List</button>
+        </div>
+    </div>
+</body>
+
+</html>
