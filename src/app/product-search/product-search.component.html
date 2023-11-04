@@ -12,7 +12,7 @@
         <div class="product-search">
             <!-- Product Search Title -->
             <h2 class="mb-4">Product Search</h2>
-            <form [formGroup]="productForm">
+            <form [formGroup]="productForm" (ngSubmit)="onSearch()">
                 <!-- Keyword Section -->
                 <div class="form-group row mb-3">
                     <label for="keyword" class="col-md-3 col-form-label">Keyword<span class="text-danger">*</span></label>
@@ -27,7 +27,7 @@
                 <div class="form-group row mb-3">
                     <label for="category" class = "col-md-3 col-form-label">Category</label>
                     <div class = "col-md-9">
-                        <select class="form-control">
+                        <select formControlName="category" class="form-control">
                             <option selected>All Categories</option>
                             <option>Art</option>
                             <option>Baby</option>
@@ -45,15 +45,15 @@
                     <label class="col-md-3 col-form-label">Condition</label>
                     <div class="col-md-9">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="condition" id="new" value="new">
+                            <input class="form-check-input" type="checkbox" formControlName="newCondition" name="condition" id="new" value="new">
                             <label class="form-check-label" for="new">New</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="condition" id="used" value="used">
+                            <input class="form-check-input" type="checkbox" formControlName="usedCondition" name="condition" id="used" value="used">
                             <label class="form-check-label" for="used">Used</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="condition" id="unspecified" value="unspecified">
+                            <input class="form-check-input" type="checkbox" formControlName="unspecifiedCondition" name="condition" id="unspecified" value="unspecified">
                             <label class="form-check-label" for="unspecified">Unspecified</label>
                         </div>
                     </div>
@@ -63,11 +63,11 @@
                     <label class="col-md-3 col-form-label">Shipping Options</label>
                     <div class="col-md-9">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="localpickup" id="localpickup">
+                            <input class="form-check-input" type="checkbox" formControlName="localpickup" value="localpickup" id="localpickup">
                             <label class="form-check-label" for="localpickup">Local Pickup</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="freeshipping" id="freeshipping">
+                            <input class="form-check-input" type="checkbox" formControlName="freeshipping" value="freeshipping" id="freeshipping">
                             <label class="form-check-label" for="freeshipping">Free Shipping</label>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                 <div class="form-group row mb-3">
                     <label for="distance" class = "col-md-3 col-form-label">Distance (Miles)</label>
                     <div class = "col-md-9">
-                        <input type="number" class="form-control" id="distance" placeholder="10">
+                        <input type="number" class="form-control" formControlName="distance" id="distance" placeholder="10">
                     </div>
                 </div>
                 <!-- From Section -->
@@ -84,11 +84,11 @@
                     <label for="from" class="col-md-3 col-form-label">From<span class="text-danger">*</span></label>
                     <div class="col-md-9">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" formControlName="type" value="currentLocation" id="currentLocation">
+                            <input class="form-check-input" type="radio" formControlName="type" value="currentLocation" id="currentLocation" name="From" checked (change)="getCurrentLocation()">
                             <label class="form-check-label" for="currentLocation">Current Location</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" formControlName="type" value="otherLocation" id="otherLocation">
+                            <input class="form-check-input" type="radio" formControlName="type" value="otherLocation" id="otherLocation" name = "From">
                             <label class="form-check-label" for="otherLocation">Other. Please specify zip code:</label>
                         </div>
                         <input type="text" formControlName="zipcode" class="form-control mt-2" placeholder="Zip code">
@@ -99,7 +99,7 @@
                 </div>
                 <!-- Search & Clear Section -->
                 <div class="form-group text-center">
-                    <button type="submit" [disabled]="productForm.invalid" class="btn btn-dark mr-2">Search</button>
+                    <button type="submit" [disabled]= "productForm.invalid" class="btn btn-dark mr-2">Search</button>
                     <button type="reset" class="btn btn-light">Clear</button>
                 </div>
             </form>
