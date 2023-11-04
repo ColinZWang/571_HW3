@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-product-search',
@@ -55,24 +55,26 @@ export class ProductSearchComponent {
   }
 
   fetchProducts() {
-    // Construct the backend API URL based on your requirements.
-    const apiUrl = `http://localhost:3000/search`;
-    const searchParams = {
-        keyword: this.keyword!.value,
-        zipcode: this.zipcode!.value,
-        category: this.productForm.get('category')!.value,
-        new: this.productForm.get('newCondition')!.value,
-        used: this.productForm.get('usedCondition')!.value,
-        unspecified: this.productForm.get('unspecifiedCondition')!.value,
-        localpickup: this.productForm.get('localpickup')!.value,
-        freeshipping: this.productForm.get('freeshipping')!.value,
-        distance: this.productForm.get('distance')!.value,
-    };
+    const params = new HttpParams({
+        fromObject: {
+            keyword: this.keyword!.value,
+            zipcode: this.zipcode!.value,
+            category: this.productForm.get('category')!.value,
+            new: this.productForm.get('newCondition')!.value ? 'true' : 'false',
+            used: this.productForm.get('usedCondition')!.value ? 'true' : 'false',
+            unspecified: this.productForm.get('unspecifiedCondition')!.value ? 'true' : 'false',
+            localpickup: this.productForm.get('localpickup')!.value ? 'true' : 'false',
+            freeshipping: this.productForm.get('freeshipping')!.value ? 'true' : 'false',
+            distance: this.productForm.get('distance')!.value
+        }
+    });
 
-    this.http.post(apiUrl, searchParams).subscribe(response => {
+    const apiUrl = `http://localhost:3000/search`;
+    this.http.get(apiUrl, { params }).subscribe(response => {
         this.products = response as any[];
     }, error => {
         console.error('Error fetching products:', error);
     });
   }
 }
+

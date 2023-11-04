@@ -1,31 +1,41 @@
 const express = require('express');
 const axios = require('axios');
-require('dotenv').config();
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+
+app.use(cors());
+app.use(bodyParser.json());
+
+const PORT = 3000;
 
 // eBay Credentials
 const APP_ID = 'ZixiWang-dummy-PRD-5fc9571dc-e3815a24';
-const CLIENT_SECRET = 'PRD-fc9571dc2408-8084-440a-b12d-c1e9';
+const CLIENT_SECRET = 'PRD-fc9571dc2408-8084-440a-b12d-c1e9'; // Store securely in production
+const BASE_EBAY_URL = 'https://svcs.ebay.com/services/search/FindingService/v1';
 
-// ... (rest of the code from your Flask app, translated to JavaScript)
+app.use(bodyParser.json());
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.get('/search', async (req, res) => {
+    const { keyword, zipcode } = req.query;
+    
+    // Construct eBay endpoint with required parameters
+    const eBayEndpoint = `${BASE_EBAY_URL}?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=${APP_ID}&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords=${keyword}&buyerPostalCode=${zipcode}`;
+
+    try {
+        const response = await axios.get(eBayEndpoint);
+        console.log('Response from eBay:', response.data);
+        if (response.data && response.data.findItemsByKeywordsResponse) {
+            res.json(response.data.findItemsByKeywordsResponse);
+        } else {
+            res.status(500).json({ message: 'Error fetching data from eBay' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching data from eBay', error: error.message });
+    }
 });
 
-app.get('/api/search', async (req, res) => {
-  const keyword = req.query.keyword;
-  // ... (similar logic to construct eBay API parameters)
-
-  try {
-      const response = await axios.get(BASE_EBAY_URL, { params: EBAY_PARAMS });
-      const items = response.data.findItemsAdvancedResponse[0].searchResult[0].item;
-      // ... (logic to filter items)
-
-      res.json(filtered_items);
-  } catch (error) {
-      res.status(500).json({ error: "Unable to fetch data" });
-  }
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
