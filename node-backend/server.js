@@ -9,6 +9,18 @@ const port = 3000;
 const EBAY_API_ENDPOINT = 'https://svcs.ebay.com/services/search/FindingService/v1';
 const EBAY_API_KEY = 'ZixiWang-dummy-PRD-5fc9571dc-e3815a24';
 
+const EBAY_CATEGORY_MAP = {
+  "Art": "550",
+  "Baby": "2984",
+  "Books": "267",
+  "Clothing, Shoes & Accessories": "11450",
+  "Computers/Tablets & Networking": "58058",
+  "Health & Beauty": "26395",
+  "Music": "11233",
+  "Video Games & Consoles": "1249"
+};
+
+
 app.use(cors()); // To allow cross-origin requests
 app.use(express.json());
 
@@ -26,6 +38,14 @@ app.get('/search', (req, res) => {
   ebayURL.searchParams.set('paginationInput.entriesPerPage', '50');
   ebayURL.searchParams.set('keywords', params.keyword);
   ebayURL.searchParams.set('buyerPostalCode', params.zipcode);
+
+  if (params.category) {
+    const ebayCategory = EBAY_CATEGORY_MAP[params.category];
+    if (ebayCategory) {
+        ebayURL.searchParams.set('categoryId', ebayCategory);
+    }
+  }
+
 
   let filterIndex = 0;
   if (params.distance) {

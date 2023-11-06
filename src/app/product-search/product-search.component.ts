@@ -75,6 +75,8 @@ export class ProductSearchComponent implements OnInit {
     if (formData.newCondition) queryParamsData.newCondition = 'true';
     if (formData.usedCondition) queryParamsData.usedCondition = 'true';
     if (formData.unspecifiedCondition) queryParamsData.unspecifiedCondition = 'true';
+    if (formData.category) queryParamsData.category = formData.category;
+
 
     const queryParams = new HttpParams({ fromObject: queryParamsData });
 
