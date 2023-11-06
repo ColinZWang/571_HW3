@@ -12,6 +12,8 @@ const EBAY_API_KEY = 'ZixiWang-dummy-PRD-5fc9571dc-e3815a24';
 app.use(cors()); // To allow cross-origin requests
 app.use(express.json());
 
+//...[other imports]
+
 app.get('/search', (req, res) => {
   const params = req.query;
 
@@ -24,7 +26,45 @@ app.get('/search', (req, res) => {
   ebayURL.searchParams.set('paginationInput.entriesPerPage', '50');
   ebayURL.searchParams.set('keywords', params.keyword);
   ebayURL.searchParams.set('buyerPostalCode', params.zipcode);
-  // Add more parameters based on user's form input ...
+
+  let filterIndex = 0;
+  if (params.distance) {
+    ebayURL.searchParams.set(`itemFilter(${filterIndex}).name`, 'MaxDistance');
+    ebayURL.searchParams.set(`itemFilter(${filterIndex}).value`, params.distance);
+    filterIndex++;
+  }
+  if (params.freeshipping) {
+    ebayURL.searchParams.set(`itemFilter(${filterIndex}).name`, 'FreeShippingOnly');
+    ebayURL.searchParams.set(`itemFilter(${filterIndex}).value`, 'true');
+    filterIndex++;
+  }
+  if (params.localpickup) {
+    ebayURL.searchParams.set(`itemFilter(${filterIndex}).name`, 'LocalPickupOnly');
+    ebayURL.searchParams.set(`itemFilter(${filterIndex}).value`, 'true');
+    filterIndex++;
+  }
+  
+  ebayURL.searchParams.set(`itemFilter(${filterIndex}).name`, 'HideDuplicateItems');
+  ebayURL.searchParams.set(`itemFilter(${filterIndex}).value`, 'true');
+  filterIndex++;
+
+  let conditionValueIndex = 0;
+  ebayURL.searchParams.set(`itemFilter(${filterIndex}).name`, 'Condition');
+  if (params.newCondition) {
+    ebayURL.searchParams.set(`itemFilter(${filterIndex}).value(${conditionValueIndex++})`, 'New');
+  }
+  if (params.usedCondition) {
+    ebayURL.searchParams.set(`itemFilter(${filterIndex}).value(${conditionValueIndex++})`, 'Used');
+  }
+  if (params.unspecifiedCondition) {
+    ebayURL.searchParams.set(`itemFilter(${filterIndex}).value(${conditionValueIndex++})`, 'Unspecified');
+  }
+
+  ebayURL.searchParams.set('outputSelector(0)', 'SellerInfo');
+  ebayURL.searchParams.set('outputSelector(1)', 'StoreInfo');
+
+
+  console.log('Sending Ebay URL: ',ebayURL)
 
   axios.get(ebayURL.href)
     .then(response => {
@@ -44,7 +84,7 @@ app.get('/search', (req, res) => {
             };
         });
 
-        console.log(extractedResults); 
+        // console.log(extractedResults); 
         res.json(extractedResults);
     })
     .catch(error => {

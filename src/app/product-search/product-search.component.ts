@@ -47,16 +47,23 @@ export class ProductSearchComponent implements OnInit {
     });
   }
 
-  fetchProducts(): void {
-    const formData = this.productForm.value;
-    const queryParams = new HttpParams({
-      fromObject: {
-        keyword: formData.keyword,
-        zipcode: formData.zipcode
-        // ... Add more parameters based on the user's form input
-      }
-    });
+  //... [rest of the code]
 
+fetchProducts(): void {
+  const formData = this.productForm.value;
+  const queryParams = new HttpParams({
+    fromObject: {
+      keyword: formData.keyword,
+      zipcode: formData.zipcode,
+      distance: formData.distance,
+      freeshipping: formData.freeshipping ? 'true' : 'false',
+      localpickup: formData.localpickup ? 'true' : 'false',
+      newCondition: formData.newCondition ? 'true' : 'false',
+      usedCondition: formData.usedCondition ? 'true' : 'false',
+      unspecifiedCondition: formData.unspecifiedCondition ? 'true' : 'false',
+    }
+  });
+  
     this.http.get<any>('http://localhost:3000/search', { params: queryParams }).subscribe(
       response => {
         this.searchResults = response as any[];
