@@ -20,6 +20,39 @@ const EBAY_CATEGORY_MAP = {
   "Video Games & Consoles": "1249"
 };
 
+const mongoose = require('mongoose');
+
+const password = '770sGrandAve7058';
+const MONGODB_URI = `mongodb+srv://ColinZWang:${password}@colinzwang-cluster.6civtdf.mongodb.net/?retryWrites=true&w=majority`;
+
+console.log("Attempting to connect to MongoDB...");
+
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverApi: {
+    version: '1',
+    strict: true,
+    deprecationErrors: true
+  }
+});
+
+mongoose.connection.once('open', function() {
+  console.log("Successfully connected to MongoDB.");
+}).on('error', function(error) {
+  console.log("Connection error:", error);
+});
+
+const wishListItemSchema = new mongoose.Schema({
+  image: String,
+  title: String,
+  price: String,
+  shipping: String,
+  zip: String
+});
+
+const WishListItem = mongoose.model('WishListItem', wishListItemSchema);
+
 
 app.use(cors()); // To allow cross-origin requests
 app.use(express.json());
@@ -113,6 +146,49 @@ app.get('/search', (req, res) => {
         res.status(500).json({ message: 'Error making request to eBay', error: error.message });
     });
 });
+
+app.post('/wishlist', async (req, res) => {
+  console.log("POST request received for /wishlist with data:", req.body);
+
+  const item = new WishListItem(req.body);
+  try {
+    const savedItem = await item.save();
+    console.log("Item saved successfully:", savedItem);
+    res.status(200).send(savedItem);
+  } catch (err) {
+    console.error("Error saving wishlist item:", err);
+    res.status(500).send(err);
+  }
+});
+
+app.get('/wishlist', async (req, res) => {
+  console.log("GET request received for /wishlist");
+
+  try {
+    const items = await WishListItem.find({});
+    console.log("Fetched wishlist items:", items);
+    res.status(200).send(items);
+  } catch (err) {
+    console.error("Error fetching wishlist items:", err);
+    res.status(500).send(err);
+  }
+});
+
+app.delete('/wishlist/:id', async (req, res) => {
+  console.log(`DELETE request received for /wishlist/${req.params.id}`);
+
+  try {
+    await WishListItem.findByIdAndDelete(req.params.id);
+    console.log(`Item with ID ${req.params.id} removed successfully.`);
+    res.status(200).send({ message: 'Item removed.' });
+  } catch (err) {
+    console.error("Error deleting wishlist item:", err);
+    res.status(500).send(err);
+  }
+});
+
+
+
 
 
 app.listen(port, () => {

@@ -158,13 +158,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of wishlist">
+                <tr *ngFor="let item of wishlist; let i = index">
                     <td>{{ item.index }}</td>
                     <td><img [src]="item.image" alt="Item Image" width="50"></td>
                     <td>{{ item.title }}</td>
                     <td>${{ item.price }}</td>
                     <td>{{ item.shipping }}</td>
-                    <td><button (click)= "removeFromWishlist(item.index)">Remove From Wishlist</button></td>
+                    <td><button (click)= "removeFromWishlist(i)">Remove From Wishlist</button></td>
                 </tr>
             </tbody>
         </table>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { WishlistService } from '../wishlist.service'; 
+
 
 
 @Component({
@@ -19,7 +21,7 @@ export class ProductSearchComponent implements OnInit {
 
   private token: string = '21c03b02289dce'; // You should get a token from ipinfo.io
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {}
+  constructor(private fb: FormBuilder, private http: HttpClient, private wishlistService: WishlistService) {}
 
   ngOnInit(): void {
     this.productForm = this.fb.group({
@@ -35,11 +37,13 @@ export class ProductSearchComponent implements OnInit {
       zipcode: ['', Validators.required]
     });
     this.getCurrentLocation();
+    this.loadWishlist();
   }
 
   onSearch(): void {
     this.displayResults = true;
     this.displayWishlist = false;
+    this.activeTab = 'results';
     if (this.productForm.get('type')!.value === 'currentLocation') {
         this.getCurrentLocation();
     }
@@ -88,20 +92,25 @@ export class ProductSearchComponent implements OnInit {
     );
   }
 
-  addToWishlist(product: any): void {
-    this.wishlist.push(product);
+  loadWishlist() {
+    this.wishlistService.getWishlist().subscribe(data => {
+      this.wishlist = data;
+    });
   }
 
-  removeFromWishlist(index: number): void {
-    // Find the index of the item in the wishlist array
-    const itemIndex = this.wishlist.findIndex(item => item.index === index);
-
-    // Remove the item if it's found
-    if (itemIndex > -1) {
-        this.wishlist.splice(itemIndex, 1);
-    }
+  addToWishlist(item: any) {
+    this.wishlistService.addToWishlist(item).subscribe(response => {
+      this.loadWishlist(); // reload the wishlist to reflect changes
+    });
   }
 
+  removeFromWishlist(index: number) {
+    const item = this.wishlist[index];
+    console.log("Removing item:", item);
+    this.wishlistService.removeFromWishlist(item._id).subscribe(response => {
+      this.loadWishlist(); // reload the wishlist to reflect changes
+    });
+  }  
 
   showResults(): void {
     this.activeTab = 'results'
