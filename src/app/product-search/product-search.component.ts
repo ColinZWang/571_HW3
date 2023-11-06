@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Component({
@@ -7,74 +7,64 @@ import { HttpClient, HttpParams } from '@angular/common/http';
   templateUrl: './product-search.component.html',
   styleUrls: ['./product-search.component.css']
 })
-export class ProductSearchComponent {
-  productForm: FormGroup;
-  private token = '21c03b02289dce';
-  products: any[] = [];  // Store the products returned from the backend
+export class ProductSearchComponent implements OnInit {
+  productForm!: FormGroup;
+  results: any[] = [];
+  searchResults: any[] = [];
+  private token: string = '21c03b02289dce'; // You should get a token from ipinfo.io
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
+  constructor(private fb: FormBuilder, private http: HttpClient) {}
+
+  ngOnInit(): void {
     this.productForm = this.fb.group({
-      keyword: ['', [Validators.required, Validators.pattern(/\S/)]],
+      keyword: ['', Validators.required],
       category: ['All Categories'],
       newCondition: [false],
       usedCondition: [false],
       unspecifiedCondition: [false],
       localpickup: [false],
       freeshipping: [false],
-      distance: ['10'],
-      from: [''], 
-      zipcode: ['', [Validators.pattern(/^\d{5}$/)]]
+      distance: [''],
+      type: ['currentLocation'],
+      zipcode: ['', Validators.required]
     });
-    
   }
 
-  get keyword() { return this.productForm.get('keyword'); }
-  get from() { return this.productForm.get('from'); }
-  get zipcode() { return this.productForm.get('zipcode'); }  
-
-  onSearch() {
-    if (this.from!.value === 'currentLocation') {
+  onSearch(): void {
+    if (this.productForm.get('type')!.value === 'currentLocation') {
         this.getCurrentLocation();
-    } else {
-        this.fetchProducts();
     }
+    this.fetchProducts();
   }
 
-  
-
-  getCurrentLocation() {
-    this.http.get(`https://ipinfo.io/json?token=${this.token}`).subscribe(response => {
-      const locationData = response as any; 
-      console.log('Location Data:', locationData);
-      const postalCode = locationData.postal;
+  getCurrentLocation(): void {
+    this.http.get<any>(`https://ipinfo.io/json?token=${this.token}`).subscribe(response => {
+      console.log('Location Data:', response as any);
+      const postalCode = response.postal;
       this.productForm.patchValue({zipcode: postalCode});
-      this.fetchProducts();
     }, error => {
       console.error('Error fetching location:', error);
     });
   }
 
-  fetchProducts() {
-    const params = new HttpParams({
-        fromObject: {
-            keyword: this.keyword!.value,
-            zipcode: this.zipcode!.value,
-            category: this.productForm.get('category')!.value,
-            new: this.productForm.get('newCondition')!.value ? 'true' : 'false',
-            used: this.productForm.get('usedCondition')!.value ? 'true' : 'false',
-            unspecified: this.productForm.get('unspecifiedCondition')!.value ? 'true' : 'false',
-            localpickup: this.productForm.get('localpickup')!.value ? 'true' : 'false',
-            freeshipping: this.productForm.get('freeshipping')!.value ? 'true' : 'false',
-            distance: this.productForm.get('distance')!.value
-        }
+  fetchProducts(): void {
+    const formData = this.productForm.value;
+    const queryParams = new HttpParams({
+      fromObject: {
+        keyword: formData.keyword,
+        zipcode: formData.zipcode
+        // ... Add more parameters based on the user's form input
+      }
     });
 
-    const apiUrl = `http://localhost:3000/search`;
-    this.http.get(apiUrl, { params }).subscribe(response => {
-        this.products = response as any[];
-    }, error => {
-        console.error('Error fetching products:', error);
-    });
+    this.http.get<any>('http://localhost:3000/search', { params: queryParams }).subscribe(
+      response => {
+        this.searchResults = response as any[];
+        console.log(response);
+      },
+      error => {
+        console.error('Error fetching data from the backend', error);
+      }
+    );
   }
 }
-
