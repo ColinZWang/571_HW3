@@ -35,10 +35,11 @@ export class ProductSearchComponent implements OnInit {
       unspecifiedCondition: [false],
       localpickup: [false],
       freeshipping: [false],
-      distance: [''],
+      distance: ['10'],
       type: ['currentLocation'],
       zipcode: ['', Validators.required]
     });
+    this.getCurrentLocation();
   }
 
   onSearch(): void {

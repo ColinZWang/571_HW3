@@ -33,11 +33,6 @@ app.get('/search', (req, res) => {
     ebayURL.searchParams.set(`itemFilter(${filterIndex}).value`, params.distance);
     filterIndex++;
   }
-  else {
-    ebayURL.searchParams.set(`itemFilter(${filterIndex}).name`, 'MaxDistance');
-    ebayURL.searchParams.set(`itemFilter(${filterIndex}).value`, 10);
-    filterIndex++;
-  }
   if (params.freeshipping) {
     ebayURL.searchParams.set(`itemFilter(${filterIndex}).name`, 'FreeShippingOnly');
     ebayURL.searchParams.set(`itemFilter(${filterIndex}).value`, 'true');
