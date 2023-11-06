@@ -2,6 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
+interface QueryParams {
+  keyword?: string;
+  zipcode?: string;
+  distance?: string;
+  freeshipping?: string;
+  localpickup?: string;
+  newCondition?: string;
+  usedCondition?: string;
+  unspecifiedCondition?: string;
+}
+
 @Component({
   selector: 'app-product-search',
   templateUrl: './product-search.component.html',
@@ -47,26 +58,28 @@ export class ProductSearchComponent implements OnInit {
     });
   }
 
-  //... [rest of the code]
 
-fetchProducts(): void {
-  const formData = this.productForm.value;
-  const queryParams = new HttpParams({
-    fromObject: {
+
+  fetchProducts(): void {
+    const formData = this.productForm.value;
+
+    const queryParamsData: any = {
       keyword: formData.keyword,
-      zipcode: formData.zipcode,
-      distance: formData.distance,
-      freeshipping: formData.freeshipping ? 'true' : 'false',
-      localpickup: formData.localpickup ? 'true' : 'false',
-      newCondition: formData.newCondition ? 'true' : 'false',
-      usedCondition: formData.usedCondition ? 'true' : 'false',
-      unspecifiedCondition: formData.unspecifiedCondition ? 'true' : 'false',
-    }
-  });
-  
+      zipcode: formData.zipcode
+    };
+    
+    if (formData.distance) queryParamsData.distance = formData.distance;
+    if (formData.freeshipping) queryParamsData.freeshipping = 'true';
+    if (formData.localpickup) queryParamsData.localpickup = 'true';
+    if (formData.newCondition) queryParamsData.newCondition = 'true';
+    if (formData.usedCondition) queryParamsData.usedCondition = 'true';
+    if (formData.unspecifiedCondition) queryParamsData.unspecifiedCondition = 'true';
+
+    const queryParams = new HttpParams({ fromObject: queryParamsData });
+
     this.http.get<any>('http://localhost:3000/search', { params: queryParams }).subscribe(
       response => {
-        this.searchResults = response as any[];
+        this.searchResults = response;
         console.log(response);
       },
       error => {

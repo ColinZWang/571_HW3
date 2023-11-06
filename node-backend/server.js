@@ -33,6 +33,11 @@ app.get('/search', (req, res) => {
     ebayURL.searchParams.set(`itemFilter(${filterIndex}).value`, params.distance);
     filterIndex++;
   }
+  else {
+    ebayURL.searchParams.set(`itemFilter(${filterIndex}).name`, 'MaxDistance');
+    ebayURL.searchParams.set(`itemFilter(${filterIndex}).value`, 10);
+    filterIndex++;
+  }
   if (params.freeshipping) {
     ebayURL.searchParams.set(`itemFilter(${filterIndex}).name`, 'FreeShippingOnly');
     ebayURL.searchParams.set(`itemFilter(${filterIndex}).value`, 'true');
@@ -49,7 +54,9 @@ app.get('/search', (req, res) => {
   filterIndex++;
 
   let conditionValueIndex = 0;
-  ebayURL.searchParams.set(`itemFilter(${filterIndex}).name`, 'Condition');
+  if (params.newCondition|| params.usedCondition || params.unspecifiedCondition){
+    ebayURL.searchParams.set(`itemFilter(${filterIndex}).name`, 'Condition');
+  }
   if (params.newCondition) {
     ebayURL.searchParams.set(`itemFilter(${filterIndex}).value(${conditionValueIndex++})`, 'New');
   }
