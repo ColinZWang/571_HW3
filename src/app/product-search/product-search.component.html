@@ -106,8 +106,15 @@
         </div>
         <!-- For results and wish list buttons -->
         <div class="text-center mt-3">
-            <button class="btn btn-dark mr-2" (click)= "showResults()">Results</button>
-            <button class="btn btn-light" (click) = "showWishlist()">Wish List</button>
+            <button 
+                class="btn mr-2" 
+                [ngClass]="{'btn-dark': activeTab === 'results', 'btn-light': activeTab !== 'results'}" 
+                (click)="showResults()">Results</button>
+
+            <button 
+                class="btn" 
+                [ngClass]="{'btn-dark': activeTab === 'wishlist', 'btn-light': activeTab !== 'wishlist'}" 
+                (click)="showWishlist()">Wish List</button>
         </div>
     </div>
     <!-- Results Tab -->

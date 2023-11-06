@@ -15,6 +15,8 @@ export class ProductSearchComponent implements OnInit {
   displayResults: boolean = false;
   displayWishlist: boolean = false;
   wishlist: any[] = [];
+  activeTab: 'results' | 'wishlist' = 'results';
+
   private token: string = '21c03b02289dce'; // You should get a token from ipinfo.io
 
   constructor(private fb: FormBuilder, private http: HttpClient) {}
@@ -102,11 +104,13 @@ export class ProductSearchComponent implements OnInit {
 
 
   showResults(): void {
+    this.activeTab = 'results'
     this.displayResults = true;
     this.displayWishlist = false;
   }
 
   showWishlist(): void {
+    this.activeTab = 'wishlist'
     this.displayResults = false;
     this.displayWishlist = true;
   }
