@@ -106,11 +106,12 @@
         </div>
         <!-- For results and wish list buttons -->
         <div class="text-center mt-3">
-            <button class="btn btn-dark mr-2">Results</button>
-            <button class="btn btn-light">Wish List</button>
+            <button class="btn btn-dark mr-2" (click)= "showResults()">Results</button>
+            <button class="btn btn-light" (click) = "showWishlist()">Wish List</button>
         </div>
     </div>
-    <div>
+    <!-- Results Tab -->
+    <div *ngIf="displayResults">
         <table>
             <thead>
                 <tr>
@@ -131,11 +132,35 @@
                     <td>${{ item.price }}</td>
                     <td>{{ item.shipping }}</td>
                     <td>{{ item.zip }}</td>
-                    <td><button>Add to Wishlist</button></td>
+                    <td><button (click)= "addToWishlist(item)">Add to Wishlist</button></td>
                 </tr>
             </tbody>
         </table>
     </div>
+    <div *ngIf="displayWishlist">
+        <table>
+            <thead>
+                <tr>
+                    <th>Index</th>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Shipping Option</th>
+                    <th>Favorite</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of wishlist">
+                    <td>{{ item.index }}</td>
+                    <td><img [src]="item.image" alt="Item Image" width="50"></td>
+                    <td>{{ item.title }}</td>
+                    <td>${{ item.price }}</td>
+                    <td>{{ item.shipping }}</td>
+                    <td><button (click)= "removeFromWishlist(item.index)">Remove From Wishlist</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>    
     
 </body>
 

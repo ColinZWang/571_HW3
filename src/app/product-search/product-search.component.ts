@@ -2,16 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
-interface QueryParams {
-  keyword?: string;
-  zipcode?: string;
-  distance?: string;
-  freeshipping?: string;
-  localpickup?: string;
-  newCondition?: string;
-  usedCondition?: string;
-  unspecifiedCondition?: string;
-}
 
 @Component({
   selector: 'app-product-search',
@@ -22,6 +12,9 @@ export class ProductSearchComponent implements OnInit {
   productForm!: FormGroup;
   results: any[] = [];
   searchResults: any[] = [];
+  displayResults: boolean = false;
+  displayWishlist: boolean = false;
+  wishlist: any[] = [];
   private token: string = '21c03b02289dce'; // You should get a token from ipinfo.io
 
   constructor(private fb: FormBuilder, private http: HttpClient) {}
@@ -43,6 +36,8 @@ export class ProductSearchComponent implements OnInit {
   }
 
   onSearch(): void {
+    this.displayResults = true;
+    this.displayWishlist = false;
     if (this.productForm.get('type')!.value === 'currentLocation') {
         this.getCurrentLocation();
     }
@@ -90,4 +85,30 @@ export class ProductSearchComponent implements OnInit {
       }
     );
   }
+
+  addToWishlist(product: any): void {
+    this.wishlist.push(product);
+  }
+
+  removeFromWishlist(index: number): void {
+    // Find the index of the item in the wishlist array
+    const itemIndex = this.wishlist.findIndex(item => item.index === index);
+
+    // Remove the item if it's found
+    if (itemIndex > -1) {
+        this.wishlist.splice(itemIndex, 1);
+    }
+  }
+
+
+  showResults(): void {
+    this.displayResults = true;
+    this.displayWishlist = false;
+  }
+
+  showWishlist(): void {
+    this.displayResults = false;
+    this.displayWishlist = true;
+  }
+
 }
