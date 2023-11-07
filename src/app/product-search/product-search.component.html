@@ -244,11 +244,11 @@
                         <td>Handling Time</td>
                         <td>{{ productDetails.handlingTime }} Day</td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="productDetails?.expeditedShipping">
                         <td>Expedited Shipping</td>
                         <td>{{ productDetails.expeditedShipping }}</td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="productDetails?.oneDayShippingAvailable">
                         <td>One Day Shipping</td>
                         <td>{{ productDetails.oneDayShippingAvailable }}</td>
                     </tr>
