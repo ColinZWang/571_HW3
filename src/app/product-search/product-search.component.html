@@ -176,7 +176,7 @@
         <div class="d-flex justify-content-end">
             <div class="tab-buttons">
                 <button class = 'btn' [ngClass]="{'btn-dark': activeTab === 'product', 'btn-light': activeTab !== 'product'}" (click)="changeTab('product')">Product</button>
-                <button class = 'btn' [ngClass]="{'btn-dark': activeTab === 'photos', 'btn-light': activeTab !== 'photos'}" (click)="changeTab('photos')">Photos</button>
+                <button class = 'btn' [ngClass]="{'btn-dark': activeTab === 'photos', 'btn-light': activeTab !== 'photos'}" (click)="onPhotosTabClick()">Photos</button>
                 <button class = 'btn' [ngClass]="{'btn-dark': activeTab === 'shipping', 'btn-light': activeTab !== 'shipping'}" (click)="changeTab('shipping')">Shipping</button>
                 <button class = 'btn' [ngClass]="{'btn-dark': activeTab === 'seller', 'btn-light': activeTab !== 'seller'}" (click)="changeTab('seller')">Seller</button>
                 <button class = 'btn' [ngClass]="{'btn-dark': activeTab === 'similar', 'btn-light': activeTab !== 'similar'}" (click)="changeTab('similar')">Similar Products</button>
@@ -225,8 +225,15 @@
           
             <!-- Photos Tab -->
             <div *ngIf="activeTab === 'photos'">
-              <!-- Photos content here -->
+                <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4" *ngFor="let photo of photos">
+                    <a href="{{ photo }}" target="_blank">
+                    <img [src]="photo" class="img-fluid" alt="Product Image">
+                    </a>
+                </div>
+                </div>
             </div>
+  
 
             <!-- Shipping Tab -->
             <div *ngIf="activeTab === 'shipping'">

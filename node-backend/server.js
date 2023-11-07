@@ -9,6 +9,10 @@ const port = 3000;
 const EBAY_API_ENDPOINT = 'https://svcs.ebay.com/services/search/FindingService/v1';
 const EBAY_API_KEY = 'ZixiWang-dummy-PRD-5fc9571dc-e3815a24';
 
+// Update your Google API Key and Search Engine ID
+const API_KEY = 'AIzaSyBungfBhRx7EXYEAFdyzygNAQwD9UZ14ZY';
+const SEARCH_ENGINE_ID = '33aff5545c7c147d6';
+
 const OAuthToken = require('./ebay_oauth_token.js');
 
 // Initialize with your client id and client secret
@@ -230,6 +234,7 @@ app.get('/product/:itemId', async (req, res) => {
     // Extract required details from the eBay API response
     const item = response.data.Item;  // Assuming the response object has an 'Item' attribute
     const productDetails = {
+        Title: item.Title,
         ProductImages: item.PictureURL,
         Price: item.CurrentPrice?.Value,
         Location: item.Location,
@@ -261,6 +266,39 @@ app.get('/product/:itemId', async (req, res) => {
 
 
 });
+
+app.get('/photos', async (req, res) => {
+  const { productTitle } = req.query;
+
+  if (!productTitle) {
+    return res.status(400).send('Product title is required');
+  }
+
+  try {
+    const response = await axios.get('https://www.googleapis.com/customsearch/v1?', {
+      params: {
+        q: productTitle.slice(0, 20),
+        cx: SEARCH_ENGINE_ID,
+        imgSize: 'huge',
+        imgType: 'photo',
+        num: 8,
+        searchType: 'image',
+        key: API_KEY
+      }
+    });
+
+    if (response.data.items) {
+      const imageLinks = response.data.items.map(item => item.link);
+      res.json(imageLinks);
+    } else {
+      res.status(404).send('No images found');
+    }
+  } catch (error) {
+    console.error('Error fetching photos:', error.response ? error.response.data : error.message);
+    res.status(500).send(error.response ? error.response.data : 'Internal Server Error');
+  }
+});
+
 
 
 

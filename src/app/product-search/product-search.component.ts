@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { WishlistService } from '../wishlist.service'; 
+import { PhotoService } from '../photo.service';
 
 
 
@@ -19,10 +20,12 @@ export class ProductSearchComponent implements OnInit {
   wishlist: any[] = [];
   activeTab: string = 'results';
   productDetails: any = null;
+  images: string[] = [];
+  photos: string[] = [];
 
   private token: string = '21c03b02289dce'; // token from ipinfo.io
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private wishlistService: WishlistService) {}
+  constructor(private fb: FormBuilder, private http: HttpClient, private wishlistService: WishlistService, private photoService: PhotoService) {}
 
   ngOnInit(): void {
     this.productForm = this.fb.group({
@@ -148,7 +151,19 @@ export class ProductSearchComponent implements OnInit {
     this.displayWishlist = false;
   }
 
-  // In your component class
+  onPhotosTabClick(): void {
+    this.activeTab = 'photos';
+    console.log('Fetching photos for ', this.productDetails.Title)
+    this.photoService.getPhotos(this.productDetails.Title).subscribe(
+      (photoUrls) => {
+        this.photos = photoUrls;
+      },
+      (error) => {
+        console.error('Error fetching photos:', error);
+      }
+    );
+  }
+
 
   getFormattedStoreName(): string {
     if (this.productDetails && this.productDetails.StoreName) {
