@@ -260,7 +260,7 @@
                                 Within: {{ productDetails.ReturnPolicy.ReturnsWithin }}
                             </td>
                         </tr>
-                        <tr *ngFor="let spec of productDetails.ItemSpecifics?.NameValueList">
+                        <tr *ngFor="let spec of productDetails.ItemSpecifics">
                             <td>{{ spec.Name }}</td>
                             <td>{{ spec.Value.join(", ") }}</td>
                         </tr>
