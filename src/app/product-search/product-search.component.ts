@@ -39,7 +39,7 @@ export class ProductSearchComponent implements OnInit {
       freeshipping: [false],
       distance: ['10'],
       type: ['currentLocation'],
-      zipcode: ['', Validators.required]
+      zipcode: ['', [Validators.required, Validators.pattern(/^\d{5}$/)]]
     });
     this.getCurrentLocation();
     this.loadWishlist();

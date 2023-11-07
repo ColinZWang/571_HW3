@@ -10,101 +10,124 @@
 
 <body>
     <div class="container mt-5">
-        <div class="product-search">
+        <div class="product-search row">
             <!-- Product Search Title -->
-            <h2 class="mb-4">Product Search</h2>
-            <form [formGroup]="productForm" (ngSubmit)="onSearch()">
-                <!-- Keyword Section -->
-                <div class="form-group row mb-3">
-                    <label for="keyword" class="col-md-3 col-form-label">Keyword<span class="text-danger">*</span></label>
-                    <div class="col-md-9">
-                        <input type="text" formControlName="keyword" class="form-control" id="keyword" placeholder="Enter Product Name (eg. iPhone 8)" required>
-                        <div *ngIf="productForm.controls['keyword'].invalid && productForm.controls['keyword'].touched" class="text-danger">
-                            Please enter a keyword
-                        </div>                        
-                    </div>
-                </div>
-                <!-- Category Section -->
-                <div class="form-group row mb-3">
-                    <label for="category" class = "col-md-3 col-form-label">Category</label>
-                    <div class = "col-md-9">
-                        <select formControlName="category" class="form-control">
-                            <option selected>All Categories</option>
-                            <option>Art</option>
-                            <option>Baby</option>
-                            <option>Books</option>
-                            <option>Clothing, Shoes & Accessories</option>
-                            <option>Computers/Tablets & Networking</option>
-                            <option>Health & Beauty</option>
-                            <option>Music</option>
-                            <option>Video Games & Consoles</option>
-                        </select>
-                    </div>
-                </div>
-                <!-- Condistion Section -->
-                <div class="form-group row mb-3">
-                    <label class="col-md-3 col-form-label">Condition</label>
-                    <div class="col-md-9">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" formControlName="newCondition" name="condition" id="new" value="new">
-                            <label class="form-check-label" for="new">New</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" formControlName="usedCondition" name="condition" id="used" value="used">
-                            <label class="form-check-label" for="used">Used</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" formControlName="unspecifiedCondition" name="condition" id="unspecified" value="unspecified">
-                            <label class="form-check-label" for="unspecified">Unspecified</label>
+            <div class ="col-2 d-none d-lg-block"></div>
+            <div class = "col-12 col-lg-8">
+                <h2 class="mb-4">Product Search</h2>
+                <form [formGroup]="productForm" (ngSubmit)="onSearch()">
+                    <!-- Keyword Section -->
+                    <div class="form-group row mb-3">
+                        <label for="keyword" class="col-md-3 col-form-label">Keyword<span class="text-danger">*</span></label>
+                        <div class="col-md-9">
+                            <input type="text" formControlName="keyword" class="form-control" id="keyword" placeholder="Enter Product Name (eg. iPhone 8)" required>
+                            <div *ngIf="productForm.controls['keyword'].invalid && productForm.controls['keyword'].touched" class="text-danger">
+                                Please enter a keyword
+                            </div>                        
                         </div>
                     </div>
-                </div>
-                <!-- Shipping Options Section -->
-                <div class="form-group row mb-3">
-                    <label class="col-md-3 col-form-label">Shipping Options</label>
-                    <div class="col-md-9">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" formControlName="localpickup" value="localpickup" id="localpickup">
-                            <label class="form-check-label" for="localpickup">Local Pickup</label>
+                    <!-- Category Section -->
+                    <div class="form-group row mb-3">
+                        <label for="category" class = "col-md-3 col-form-label">Category</label>
+                        <div class = "col-md-3">
+                            <select formControlName="category" class="form-control">
+                                <option selected>All Categories</option>
+                                <option>Art</option>
+                                <option>Baby</option>
+                                <option>Books</option>
+                                <option>Clothing, Shoes & Accessories</option>
+                                <option>Computers/Tablets & Networking</option>
+                                <option>Health & Beauty</option>
+                                <option>Music</option>
+                                <option>Video Games & Consoles</option>
+                            </select>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" formControlName="freeshipping" value="freeshipping" id="freeshipping">
-                            <label class="form-check-label" for="freeshipping">Free Shipping</label>
+                        <div class = "col-md-6"></div>
+                    </div>
+                    <!-- Condistion Section -->
+                    <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label">Condition</label>
+                        <div class="col-md-9">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" formControlName="newCondition" name="condition" id="new" value="new">
+                                <label class="form-check-label" for="new">New</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" formControlName="usedCondition" name="condition" id="used" value="used">
+                                <label class="form-check-label" for="used">Used</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" formControlName="unspecifiedCondition" name="condition" id="unspecified" value="unspecified">
+                                <label class="form-check-label" for="unspecified">Unspecified</label>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- Distance Section -->
-                <div class="form-group row mb-3">
-                    <label for="distance" class = "col-md-3 col-form-label">Distance (Miles)</label>
-                    <div class = "col-md-9">
-                        <input type="number" class="form-control" formControlName="distance" id="distance" placeholder="10">
-                    </div>
-                </div>
-                <!-- From Section -->
-                <div class="form-group row mb-3">
-                    <label for="from" class="col-md-3 col-form-label">From<span class="text-danger">*</span></label>
-                    <div class="col-md-9">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" formControlName="type" value="currentLocation" id="currentLocation" name="From" checked (change)="getCurrentLocation()">
-                            <label class="form-check-label" for="currentLocation">Current Location</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" formControlName="type" value="otherLocation" id="otherLocation" name = "From">
-                            <label class="form-check-label" for="otherLocation">Other. Please specify zip code:</label>
-                        </div>
-                        <input type="text" formControlName="zipcode" class="form-control mt-2" placeholder="Zip code">
-                        <div *ngIf="productForm.controls['zipcode'].invalid && productForm.controls['zipcode'].touched" class="text-danger">
-                            Please enter a zip code
+                    <!-- Shipping Options Section -->
+                    <div class="form-group row mb-3">
+                        <label class="col-md-3 col-form-label">Shipping Options</label>
+                        <div class="col-md-9">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" formControlName="localpickup" value="localpickup" id="localpickup">
+                                <label class="form-check-label" for="localpickup">Local Pickup</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" formControlName="freeshipping" value="freeshipping" id="freeshipping">
+                                <label class="form-check-label" for="freeshipping">Free Shipping</label>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- Search & Clear Section -->
-                <div class="form-group text-center">
-                    <button type="submit" [disabled]= "productForm.invalid" class="btn btn-dark mr-2">Search</button>
-                    <button type="reset" class="btn btn-light">Clear</button>
-                </div>
-            </form>
+                    <!-- Distance Section -->
+                    <div class="form-group row mb-3">
+                        <label for="distance" class = "col-md-3 col-form-label">Distance (Miles)</label>
+                        <div class = "col-md-3">
+                            <input type="number" class="form-control" formControlName="distance" id="distance" placeholder="10">
+                        </div>
+                        <div class = "col-md-6"></div>
+                    </div>
+                    <!-- From Section -->
+                    <div class="form-group row mb-3">
+                        <label for="from" class="col-md-3 col-form-label">From<span class="text-danger">*</span></label>
+                        <div class="col-md-9">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" formControlName="type" value="currentLocation" id="currentLocation" name="From" checked (change)="getCurrentLocation()">
+                                <label class="form-check-label" for="currentLocation">Current Location</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" formControlName="type" value="otherLocation" id="otherLocation" name = "From">
+                                <label class="form-check-label" for="otherLocation">Other. Please specify zip code:</label>
+                            </div>
+                            <input 
+                                type="text" 
+                                formControlName="zipcode" 
+                                class="form-control mt-2" 
+                                placeholder="Zip code"
+                                [class.is-invalid]="productForm.controls['zipcode'].invalid && productForm.controls['zipcode'].touched" 
+                                required 
+                                pattern="\d{5}">
+
+                            <div *ngIf="productForm.controls['zipcode'].errors && productForm.controls['zipcode'].touched" class="invalid-feedback">
+                                <div *ngIf="productForm.controls['zipcode'].errors['required']">Please enter a zip code</div>
+                                <div *ngIf="productForm.controls['zipcode'].errors['pattern']">Zip code must be 5 digits</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Search & Clear Section -->
+                    <div class="form-group text-start row">
+                        <button type="submit" [disabled]="productForm.invalid" class="btn btn-secondary col-2">
+                        <i class="material-icons">search</i>    Search
+                        </button>
+                        <div class = "col-1"></div>
+                        <button type="reset" class="btn btn-light col-2">
+                            <i class="material-icons">clear_all</i>Clear
+                        </button>
+                        <div class = "col-5"></div>
+                    </div>
+                    
+                </form>
+            </div>
+            <div class = "col-2 d-none d-lg-block"></div>
         </div>
+        
         <!-- For results and wish list buttons -->
         <div class="text-center mt-3">
             <button 
@@ -137,8 +160,15 @@
                 <tbody>
                     <tr *ngFor="let item of searchResults">
                         <td>{{ item.index }}</td>
-                        <td><img [src]="item.image" alt="Item Image" width="50"></td>
-                        <td><a (click)="onProductTitleClick(item.itemId)">{{ item.title }}</a></td>
+                        <td><img [src]="item.image" alt="Item Image" class="img-large"></td>
+                        <td>
+                            <a href="#" 
+                                [title]="item.title" 
+                                style="color: #6495ED; cursor: pointer;" 
+                                (click)="onProductTitleClick(item.itemId); $event.preventDefault()">
+                                    {{ item.title }}
+                            </a>
+                        </td>
                         <td>${{ item.price }}</td>
                         <td>{{ item.shipping }}</td>
                         <td>{{ item.zip }}</td>
@@ -177,8 +207,8 @@
             <tbody>
                 <tr *ngFor="let item of wishlist; let i = index">
                     <td>{{ item.index }}</td>
-                    <td><img [src]="item.image" alt="Item Image" width="50"></td>
-                    <td>{{ item.title }}</td>
+                    <td><img [src]="item.image" alt="Item Image" class="img-large"></td>
+                    <td><a (click)="onProductTitleClick(item._id)">{{ item.title }}</a></td>
                     <td>${{ item.price }}</td>
                     <td>{{ item.shipping }}</td>
                     <td><button (click)= "removeFromWishlist(i)">Remove From Wishlist</button></td>

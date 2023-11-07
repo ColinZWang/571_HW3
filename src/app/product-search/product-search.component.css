@@ -67,4 +67,9 @@ table {
     text-align: left;
     padding: 1rem; /* adjust padding as needed */
   }
-  
+
+  .img-large {
+    width: 100%; /* or any other size */
+    max-width: 100px; /* or your preferred maximum width */
+    height: auto; /* to maintain the aspect ratio */
+}
