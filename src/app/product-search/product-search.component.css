@@ -26,3 +26,34 @@ table {
     /* Add button styling */
   }
   
+.progress-wrapper {
+    position: relative;
+    display: inline-block;
+}
+  
+.progress-text {
+    position: absolute;
+    line-height: 80px; /* This should be the diameter of the circle */
+    width: 80px; /* This should be the diameter of the circle */
+    text-align: center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+}
+
+.yellow { color: #FFD700; } /* Gold */
+.blue { color: #007FFF; } /* Azure blue */
+.turquoise { color: #40E0D0; } /* Turquoise */
+.purple { color: #800080; } /* Purple */
+.red { color: #FF0000; } /* Red */
+.green { color: #008000; } /* Green */
+.yellow-shooting { color: #FFD700; } /* Gold for shooting star */
+.turquoise-shooting { color: #40E0D0; } /* Turquoise for shooting star */
+.purple-shooting { color: #800080; } /* Purple for shooting star */
+.red-shooting { color: #FF0000; } /* Red for shooting star */
+.green-shooting { color: #008000; } /* Green for shooting star */
+.silver-shooting { color: #C0C0C0; } /* Silver */
+.none { display: none; }
+
+  

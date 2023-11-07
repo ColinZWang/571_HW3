@@ -9,6 +9,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductSearchComponent } from './product-search/product-search.component';
 
+import { RoundProgressModule } from 'angular-svg-round-progressbar';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +23,8 @@ import { ProductSearchComponent } from './product-search/product-search.componen
     HomeComponent,
     FormsModule,        
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    RoundProgressModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Search</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
@@ -260,11 +261,68 @@
                 </table>
             </div>
   
-          
+
             <!-- Seller Tab -->
             <div *ngIf="activeTab === 'seller'">
-              <!-- Seller information here -->
+                <h3>Seller Information</h3>
+                <table class="table">
+                <tbody>
+                    <tr *ngIf="productDetails.FeedbackScore">
+                    <td>Feedback Score</td>
+                    <td>{{ productDetails.FeedbackScore }}</td>
+                    </tr>
+                    <tr *ngIf="productDetails.PositiveFeedbackPercent">
+                    <td>Popularity</td>
+                    <td>
+                    <div class = "progress-wrapper">
+                        <round-progress 
+                        [current]="productDetails.PositiveFeedbackPercent"
+                        [max]="100"
+                        [color]="'#2ccb30'"
+                        [radius]="25"
+                        [stroke]="4"
+                        [rounded]="true"
+                        [clockwise]="true"
+                        [responsive]="false"
+                        [duration]="400"
+                        [animation]="'easeInOutQuart'"
+                        [animationDelay]="0">
+                        </round-progress>
+                        <div class="progress-text">{{ productDetails.PositiveFeedbackPercent }}%</div>
+                    </div>
+                    </td>
+                    </tr>
+                    <tr *ngIf="productDetails.FeedbackRatingStar">
+                    <td>Feedback Rating Star</td>
+                    <td>
+                    <i class="material-icons" [ngClass]="getStarColor(productDetails.FeedbackScore)">
+                        {{ productDetails.FeedbackScore >= 10000 ? 'stars' : 'star_border' }}
+                    </i>
+                    </td>
+
+                    </tr>
+                    <tr *ngIf="productDetails.TopRatedSeller">
+                        <td>Top Rated</td>
+                        <td>
+                          <span [ngClass]="productDetails.TopRatedSeller ? 'text-success' : 'text-danger'">
+                            <i class="material-icons">
+                              {{ productDetails.TopRatedSeller ? 'check_circle' : 'cancel' }}
+                            </i>
+                          </span>
+                        </td>
+                    </tr>
+                    <tr *ngIf="productDetails.StoreName">
+                    <td>Store Name</td>
+                    <td>{{ productDetails.StoreName }}</td>
+                    </tr>
+                    <tr *ngIf="productDetails.StoreURL">
+                    <td>Buy Product At</td>
+                    <td><a href="{{ productDetails.StoreURL }}" target="_blank">Store</a></td>
+                    </tr>
+                </tbody>
+                </table>
             </div>
+  
           
             <!-- Similar Products Tab -->
             <div *ngIf="activeTab === 'similar'">

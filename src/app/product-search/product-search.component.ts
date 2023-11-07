@@ -148,6 +148,23 @@ export class ProductSearchComponent implements OnInit {
     this.displayWishlist = false;
   }
 
+  getStarColor(feedbackScore: number): string {
+    if (feedbackScore >= 1000000) return 'silver-shooting';
+    if (feedbackScore >= 500000) return 'green-shooting';
+    if (feedbackScore >= 100000) return 'red-shooting';
+    if (feedbackScore >= 50000) return 'purple-shooting';
+    if (feedbackScore >= 25000) return 'turquoise-shooting';
+    if (feedbackScore >= 10000) return 'yellow-shooting';
+    if (feedbackScore >= 5000) return 'green';
+    if (feedbackScore >= 1000) return 'red';
+    if (feedbackScore >= 500) return 'purple';
+    if (feedbackScore >= 100) return 'turquoise';
+    if (feedbackScore >= 50) return 'blue';
+    if (feedbackScore >= 10) return 'yellow';
+    return 'none';
+  }
+  
+
   backToList(): void {
     this.productDetails = null;
     this.displayResults = true;

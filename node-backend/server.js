@@ -239,10 +239,16 @@ app.get('/product/:itemId', async (req, res) => {
             ReturnsWithin: item.ReturnPolicy?.ReturnsWithin
         },
         handlingTime: item.HandlingTime,
-        shippingServiceCost: item.ShippingCostSummary?.ShippingServiceCost["__value__"],
+        shippingServiceCost: item.ShippingCostSummary?.ShippingServiceCost,
         shipToLocations: item.ShipToLocations,
         expeditedShipping: item.ShippingCostSummary?.ExpeditedShipping,
         oneDayShippingAvailable: item.ShippingCostSummary?.OneDayShippingAvailable,
+        FeedbackScore: item.Seller.FeedbackScore,
+        PositiveFeedbackPercent: item.Seller.PositiveFeedbackPercent,
+        FeedbackRatingStar: item.Seller.FeedbackRatingStar,
+        TopRatedSeller: item.Seller.TopRatedSeller,
+        StoreName: item.Storefront.StoreName,
+        StoreURL: item.Storefront.StoreURL
 
     };
 
