@@ -148,6 +148,16 @@ export class ProductSearchComponent implements OnInit {
     this.displayWishlist = false;
   }
 
+  // In your component class
+
+  getFormattedStoreName(): string {
+    if (this.productDetails && this.productDetails.StoreName) {
+      return this.productDetails.StoreName.toUpperCase().replace(/\s+/g, '');
+    }
+    return '';
+  }
+
+
   getStarColor(feedbackScore: number): string {
     if (feedbackScore >= 1000000) return 'silver-shooting';
     if (feedbackScore >= 500000) return 'green-shooting';

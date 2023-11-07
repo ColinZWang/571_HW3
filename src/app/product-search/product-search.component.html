@@ -120,7 +120,7 @@
     </div>
     <!-- Results Tab -->
     <div *ngIf="displayResults">
-        <table>
+        <table class = "table table-dark table-striped">
             <thead>
                 <tr>
                     <th>#</th>
@@ -147,7 +147,7 @@
     </div>
     <!-- Wishlist Tab -->
     <div *ngIf="displayWishlist">
-        <table>
+        <table class = "table table-dark table-striped">
             <thead>
                 <tr>
                     <th>#</th>
@@ -186,7 +186,7 @@
         <div class="tab-content">
             <!-- Product Tab -->
             <div *ngIf="activeTab === 'product'">
-                <table>
+                <table class = "table table-dark table-striped">
                     <tbody>
                         <tr>
                             <td>Product Images</td>
@@ -230,8 +230,7 @@
 
             <!-- Shipping Tab -->
             <div *ngIf="activeTab === 'shipping'">
-                <h3>Shipping Information</h3>
-                <table class="table">
+                <table class="table table-dark table-striped">
                 <tbody>
                     <tr *ngIf="productDetails?.shippingServiceCost?.__value__">
                         <td>Shipping Cost</td>
@@ -264,9 +263,13 @@
 
             <!-- Seller Tab -->
             <div *ngIf="activeTab === 'seller'">
-                <h3>Seller Information</h3>
-                <table class="table">
+                <table class="table table-dark table-striped">
                 <tbody>
+                    <tr>
+                        <td colspan="2" class="text-center fw-bolder fs-4 store-name">
+                            {{ getFormattedStoreName() }}
+                        </td>
+                    </tr>
                     <tr *ngIf="productDetails.FeedbackScore">
                     <td>Feedback Score</td>
                     <td>{{ productDetails.FeedbackScore }}</td>
