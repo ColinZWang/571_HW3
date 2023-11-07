@@ -9,6 +9,17 @@ const port = 3000;
 const EBAY_API_ENDPOINT = 'https://svcs.ebay.com/services/search/FindingService/v1';
 const EBAY_API_KEY = 'ZixiWang-dummy-PRD-5fc9571dc-e3815a24';
 
+const OAuthToken = require('./ebay_oauth_token.js');
+
+// Initialize with your client id and client secret
+CLIENT_ID = 'ZixiWang-dummy-PRD-5fc9571dc-e3815a24'
+CLIENT_SECRET = 'PRD-fc9571dc2408-8084-440a-b12d-c1e9'
+const oauth = new OAuthToken(CLIENT_ID, CLIENT_SECRET);
+
+// Fetch and store the token in memory
+let eBayToken = oauth.getApplicationToken();
+
+
 const EBAY_CATEGORY_MAP = {
   "Art": "550",
   "Baby": "2984",
@@ -130,6 +141,7 @@ app.get('/search', (req, res) => {
         const extractedResults = searchResultItems.map((item, index) => {
             return {
                 index: index + 1,
+                itemId: item.itemId && item.itemId[0],
                 image: item.galleryURL && item.galleryURL[0],
                 title: item.title && item.title[0],
                 price: item.sellingStatus && item.sellingStatus[0].currentPrice && item.sellingStatus[0].currentPrice[0].__value__,
@@ -187,7 +199,55 @@ app.delete('/wishlist/:id', async (req, res) => {
   }
 });
 
+app.get('/product/:itemId', async (req, res) => {
+  const itemId = req.params.itemId;
+  console.log("Backend received Item ID:", itemId);
 
+  // Define constants
+  const EBAY_API_ENDPOINT = 'https://open.api.ebay.com/shopping';
+
+  // Construct the URL with search parameters
+  const ebayURL = new URL(EBAY_API_ENDPOINT);
+  ebayURL.searchParams.set('callname', 'GetSingleItem');
+  ebayURL.searchParams.set('responseencoding', 'JSON');
+  ebayURL.searchParams.set('appid', EBAY_API_KEY);
+  ebayURL.searchParams.set('siteid', '0');
+  ebayURL.searchParams.set('version', '967');
+  ebayURL.searchParams.set('ItemID', itemId);
+  ebayURL.searchParams.set('IncludeSelector', 'Description,Details,Item Specifics');
+
+  console.log('Constructed eBay API URL:', ebayURL.toString());
+
+  const headers = {
+    'X-EBAY-API-IAF-TOKEN': await oauth.getApplicationToken()
+  };
+  
+  // Use the constructed URL and headers for your API call
+  try {
+    const response = await axios.get(ebayURL.toString(), { headers: headers });
+    console.log('Received response from eBay API:', response.data);
+
+    // Extract required details from the eBay API response
+    const item = response.data.Item;  // Assuming the response object has an 'Item' attribute
+    const productDetails = {
+        ProductImages: item.PictureURL,
+        Price: item.currentPrice?.Value,
+        Location: item.Location,
+        ItemSpecifics: item.ItemSpecifics?.NameValueList.map(spec => ({ name: spec.Name, value: spec.Value })),
+        ReturnPolicy: {
+            ReturnsAccepted: item.ReturnPolicy?.ReturnsAccepted,
+            ReturnsWithin: item.ReturnPolicy?.ReturnsWithin
+        }
+    };
+
+    res.json(productDetails);
+} catch (error) {
+    console.error('Error fetching data from eBay API:', error);
+    res.status(500).send('Internal server error');
+}
+
+
+});
 
 
 

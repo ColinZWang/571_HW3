@@ -18,8 +18,9 @@ export class ProductSearchComponent implements OnInit {
   displayWishlist: boolean = false;
   wishlist: any[] = [];
   activeTab: 'results' | 'wishlist' = 'results';
+  productDetails: any = null;
 
-  private token: string = '21c03b02289dce'; // You should get a token from ipinfo.io
+  private token: string = '21c03b02289dce'; // token from ipinfo.io
 
   constructor(private fb: FormBuilder, private http: HttpClient, private wishlistService: WishlistService) {}
 
@@ -122,6 +123,37 @@ export class ProductSearchComponent implements OnInit {
     this.activeTab = 'wishlist'
     this.displayResults = false;
     this.displayWishlist = true;
+  }
+
+  onProductTitleClick(itemId: string): void {
+    console.log("Clicked Item ID:", itemId);
+    this.getProductDetails(itemId);
+  }
+
+
+  getProductDetails(itemId: string): void {
+    const url = `http://localhost:3000/product/${itemId}`;
+    this.http.get<any>(url).subscribe(
+      data => {
+        this.productDetails = data;
+        console.log(data);
+      },
+      error => {
+        console.error('Error fetching data from the backend', error);
+      }
+    );
+    // Hide other sections
+    this.displayResults = false;
+    this.displayWishlist = false;
+  }
+
+  backToList(): void {
+    this.productDetails = null;
+    this.displayResults = true;
+  } 
+
+  openImageModal(): void {
+    // Logic to open modal and display all product images from productDetails.PictureURL
   }
 
 }
