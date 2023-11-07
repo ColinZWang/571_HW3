@@ -218,7 +218,7 @@ app.get('/product/:itemId', async (req, res) => {
   ebayURL.searchParams.set('siteid', '0');
   ebayURL.searchParams.set('version', '967');
   ebayURL.searchParams.set('ItemID', itemId);
-  ebayURL.searchParams.set('IncludeSelector', 'Description,Details,Item Specifics');
+  ebayURL.searchParams.set('IncludeSelector', 'Description,Details,ItemSpecifics');
 
   console.log('Constructed eBay API URL:', ebayURL.toString());
 
@@ -238,7 +238,7 @@ app.get('/product/:itemId', async (req, res) => {
         ProductImages: item.PictureURL,
         Price: item.CurrentPrice?.Value,
         Location: item.Location,
-        ItemSpecifics: item.ItemSpecifics?.NameValueList.map(spec => ({ name: spec.Name, value: spec.Value })),
+        ItemSpecifics: item.ItemSpecifics.NameValueList,
         ReturnPolicy: {
             ReturnsAccepted: item.ReturnPolicy?.ReturnsAccepted,
             ReturnsWithin: item.ReturnPolicy?.ReturnsWithin

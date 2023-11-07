@@ -160,7 +160,11 @@
                 <tbody>
                     <tr *ngFor="let item of searchResults">
                         <td>{{ item.index }}</td>
-                        <td><img [src]="item.image" alt="Item Image" class="img-large"></td>
+                        <td>
+                            <a href="{{item.image}}" target="_blank">
+                                <img [src]="item.image" alt="Item Image" class="img-large">
+                            </a>
+                        </td>
                         <td>
                             <a href="#" 
                                 [title]="item.title" 
@@ -256,15 +260,10 @@
                                 Within: {{ productDetails.ReturnPolicy.ReturnsWithin }}
                             </td>
                         </tr>
-                        <tr>
-                            <td>ItemSpecifics (Name)</td>
-                            <td>
-                                <ul>
-                                    <li *ngFor="let spec of productDetails.ItemSpecifics">{{ spec.name }}: {{ spec.value }}</li>
-                                </ul>
-                            </td>
+                        <tr *ngFor="let spec of productDetails.ItemSpecifics?.NameValueList">
+                            <td>{{ spec.Name }}</td>
+                            <td>{{ spec.Value.join(", ") }}</td>
                         </tr>
-                        <!-- Other fields... -->
                     </tbody>
                     </table>
             </div>
