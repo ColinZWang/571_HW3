@@ -22,6 +22,7 @@ export class ProductSearchComponent implements OnInit {
   productDetails: any = null;
   images: string[] = [];
   photos: string[] = [];
+  noRecordsFound: boolean = false;
 
   private token: string = '21c03b02289dce'; // token from ipinfo.io
 
@@ -45,6 +46,7 @@ export class ProductSearchComponent implements OnInit {
   }
 
   onSearch(): void {
+    this.noRecordsFound = false;
     this.displayResults = true;
     this.displayWishlist = false;
     this.activeTab = 'results';
@@ -89,6 +91,9 @@ export class ProductSearchComponent implements OnInit {
       response => {
         this.searchResults = response;
         console.log(response);
+        if (this.searchResults.length === 0) { // Double check in case results have been updated
+          this.noRecordsFound = true;
+        }
       },
       error => {
         console.error('Error fetching data from the backend', error);

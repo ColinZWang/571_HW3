@@ -61,3 +61,10 @@ table {
     height: auto;
   }
   
+  .no-records {
+    background-color: #ffffe0; /* light yellow */
+    color: #8b4513; /* brown text */
+    text-align: left;
+    padding: 1rem; /* adjust padding as needed */
+  }
+  
