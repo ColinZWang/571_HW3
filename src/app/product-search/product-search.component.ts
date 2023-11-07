@@ -136,7 +136,7 @@ export class ProductSearchComponent implements OnInit {
     this.http.get<any>(url).subscribe(
       data => {
         this.productDetails = data;
-        console.log(data);
+        console.log('Product Details: ',data)
       },
       error => {
         console.error('Error fetching data from the backend', error);

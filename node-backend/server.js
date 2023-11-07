@@ -231,7 +231,7 @@ app.get('/product/:itemId', async (req, res) => {
     const item = response.data.Item;  // Assuming the response object has an 'Item' attribute
     const productDetails = {
         ProductImages: item.PictureURL,
-        Price: item.currentPrice?.Value,
+        Price: item.CurrentPrice?.Value,
         Location: item.Location,
         ItemSpecifics: item.ItemSpecifics?.NameValueList.map(spec => ({ name: spec.Name, value: spec.Value })),
         ReturnPolicy: {
@@ -240,6 +240,7 @@ app.get('/product/:itemId', async (req, res) => {
         }
     };
 
+    console.log(productDetails);
     res.json(productDetails);
 } catch (error) {
     console.error('Error fetching data from eBay API:', error);
