@@ -224,15 +224,19 @@
             </div>
           
             <!-- Photos Tab -->
-            <div *ngIf="activeTab === 'photos'">
-                <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4" *ngFor="let photo of photos">
-                    <a href="{{ photo }}" target="_blank">
-                    <img [src]="photo" class="img-fluid" alt="Product Image">
-                    </a>
-                </div>
+            <div *ngIf="activeTab === 'photos'" class="tab-pane fade show active">
+                <div class="container">
+                    <div class="row">
+                        <div *ngFor="let photo of photos; let i = index" class="col-md-4 mb-4">
+                            <!-- Each photo in a column -->
+                            <a href="{{photo}}" target="_blank">
+                                <img class="img-fluid border border-dark border-5" [src]="photo" alt="Product Image" style="width: 100%; height: auto;">
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
+
   
 
             <!-- Shipping Tab -->
