@@ -145,6 +145,10 @@ export class ProductSearchComponent implements OnInit {
     this.http.get<any>(url).subscribe(
       data => {
         this.productDetails = data;
+        const clickedItem = this.searchResults.find(item => item.itemId === itemId);
+        if (clickedItem) {
+          this.productDetails.shippingServiceCost = clickedItem.shipping; // Assuming 'shipping' is the key for shipping cost in your searchResults items
+        }
         console.log('Product Details: ',data)
       },
       error => {

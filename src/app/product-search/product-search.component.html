@@ -211,7 +211,11 @@
             <tbody>
                 <tr *ngFor="let item of wishlist; let i = index">
                     <td>{{ item.index }}</td>
-                    <td><img [src]="item.image" alt="Item Image" class="img-large"></td>
+                    <td>
+                        <a href="{{item.image}}" target="_blank">
+                            <img [src]="item.image" alt="Item Image" class="img-large">
+                        </a>
+                    </td>                    
                     <td><a (click)="onProductTitleClick(item._id)">{{ item.title }}</a></td>
                     <td>${{ item.price }}</td>
                     <td>{{ item.shipping }}</td>
@@ -241,8 +245,9 @@
                         <tr>
                             <td>Product Images</td>
                             <td>
-                                <!-- Clicking on this image thumbnail will open a modal with all product images -->
-                                <img [src]="productDetails.ProductImages[0]" alt="Product Image" (click)="openImageModal()">
+                                <a href="{{productDetails.ProductImages}}" target="_blank">
+                                    View Product Images here
+                                </a>
                             </td>
                         </tr>
                         <tr>
@@ -288,9 +293,9 @@
             <div *ngIf="activeTab === 'shipping'">
                 <table class="table table-dark table-striped">
                 <tbody>
-                    <tr *ngIf="productDetails?.shippingServiceCost?.__value__">
+                    <tr *ngIf="productDetails?.shippingServiceCost">
                         <td>Shipping Cost</td>
-                        <td>{{ productDetails.shippingServiceCost.__value__ }}</td>
+                        <td>{{ productDetails.shippingServiceCost}}</td>
                     </tr>
                     <tr *ngIf="productDetails?.shipToLocations">
                         <td>Shipping Locations</td>
@@ -300,17 +305,29 @@
                         <td>Handling Time</td>
                         <td>{{ productDetails.handlingTime }} Day</td>
                     </tr>
-                    <tr *ngIf="productDetails?.expeditedShipping">
+                    <tr *ngIf="productDetails?.expeditedShipping !== undefined">
                         <td>Expedited Shipping</td>
-                        <td>{{ productDetails.expeditedShipping }}</td>
+                        <td>
+                            <span [class.true-icon]="productDetails.expeditedShipping" [class.false-icon]="!productDetails.expeditedShipping">
+                                {{ productDetails.expeditedShipping ? '✓' : '✗' }}
+                            </span>
+                        </td>
                     </tr>
-                    <tr *ngIf="productDetails?.oneDayShippingAvailable">
+                    <tr *ngIf="productDetails?.oneDayShippingAvailable !== undefined">
                         <td>One Day Shipping</td>
-                        <td>{{ productDetails.oneDayShippingAvailable }}</td>
+                        <td>
+                            <span [class.true-icon]="productDetails.oneDayShippingAvailable" [class.false-icon]="!productDetails.oneDayShippingAvailable">
+                                {{ productDetails.oneDayShippingAvailable ? '✓' : '✗' }}
+                            </span>
+                        </td>
                     </tr>
-                    <tr *ngIf="productDetails?.ReturnPolicy?.ReturnsAccepted">
+                    <tr *ngIf="productDetails?.ReturnPolicy?.ReturnsAccepted !== undefined">
                         <td>Return Accepted</td>
-                        <td>{{ productDetails.ReturnPolicy.ReturnsAccepted }}</td>
+                        <td>
+                            <span [class.true-icon]="productDetails.ReturnPolicy.ReturnsAccepted" [class.false-icon]="!productDetails.ReturnPolicy.ReturnsAccepted">
+                                {{ productDetails.ReturnPolicy.ReturnsAccepted ? '✓' : '✗' }}
+                            </span>
+                        </td>
                     </tr>
                 </tbody>
                 </table>
@@ -360,16 +377,15 @@
                     </td>
 
                     </tr>
-                    <tr *ngIf="productDetails?.TopRatedSeller">
-                        <td>Top Rated</td>
+                    <tr *ngIf="productDetails?.TopRatedSeller !== undefined">
+                        <td>Top Rated Seller</td>
                         <td>
-                          <span [ngClass]="productDetails.TopRatedSeller ? 'text-success' : 'text-danger'">
-                            <i class="material-icons">
-                              {{ productDetails.TopRatedSeller ? 'check_circle' : 'cancel' }}
-                            </i>
+                          <span [ngClass]="productDetails.TopRatedSeller ? 'true-icon' : 'false-icon'">
+                            {{ productDetails.TopRatedSeller ? '✓' : '✗' }}
                           </span>
                         </td>
-                    </tr>
+                      </tr>
+                      
                     <tr *ngIf="productDetails?.StoreName">
                     <td>Store Name</td>
                     <td>{{ productDetails.StoreName }}</td>

@@ -73,3 +73,11 @@ table {
     max-width: 100px; /* or your preferred maximum width */
     height: auto; /* to maintain the aspect ratio */
 }
+
+.true-icon {
+ color: green;
+}
+  
+.false-icon {
+ color: red;
+}
