@@ -17,7 +17,7 @@ export class ProductSearchComponent implements OnInit {
   displayResults: boolean = false;
   displayWishlist: boolean = false;
   wishlist: any[] = [];
-  activeTab: 'results' | 'wishlist' = 'results';
+  activeTab: string = 'results';
   productDetails: any = null;
 
   private token: string = '21c03b02289dce'; // token from ipinfo.io
@@ -128,6 +128,7 @@ export class ProductSearchComponent implements OnInit {
   onProductTitleClick(itemId: string): void {
     console.log("Clicked Item ID:", itemId);
     this.getProductDetails(itemId);
+    this.activeTab='product'
   }
 
 
@@ -150,7 +151,12 @@ export class ProductSearchComponent implements OnInit {
   backToList(): void {
     this.productDetails = null;
     this.displayResults = true;
+    this.activeTab = 'results'
   } 
+
+  changeTab(tabName: string): void {
+    this.activeTab = tabName;
+  }
 
   openImageModal(): void {
     // Logic to open modal and display all product images from productDetails.PictureURL

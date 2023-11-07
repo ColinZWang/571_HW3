@@ -171,45 +171,78 @@
     </div>   
     <!-- Product Details Section -->
     <div *ngIf="productDetails">
-        <h3>{{ productDetails.Title }}</h3> <!-- If Title isn't part of the new structure, remove or adjust this -->
-        <button (click)="backToList()">Back to List</button>
+        <button  class = 'btn btn-light' (click)="backToList()"> &lt; List</button>
+        <div class="d-flex justify-content-end">
+            <div class="tab-buttons">
+                <button class = 'btn' [ngClass]="{'btn-dark': activeTab === 'product', 'btn-light': activeTab !== 'product'}" (click)="changeTab('product')">Product</button>
+                <button class = 'btn' [ngClass]="{'btn-dark': activeTab === 'photos', 'btn-light': activeTab !== 'photos'}" (click)="changeTab('photos')">Photos</button>
+                <button class = 'btn' [ngClass]="{'btn-dark': activeTab === 'shipping', 'btn-light': activeTab !== 'shipping'}" (click)="changeTab('shipping')">Shipping</button>
+                <button class = 'btn' [ngClass]="{'btn-dark': activeTab === 'seller', 'btn-light': activeTab !== 'seller'}" (click)="changeTab('seller')">Seller</button>
+                <button class = 'btn' [ngClass]="{'btn-dark': activeTab === 'similar', 'btn-light': activeTab !== 'similar'}" (click)="changeTab('similar')">Similar Products</button>
+            </div>
+        </div>
         <!-- Facebook button and Wishlist button here... -->
-
-        <table>
-        <tbody>
-            <tr>
-                <td>Product Images</td>
-                <td>
-                    <!-- Clicking on this image thumbnail will open a modal with all product images -->
-                    <img [src]="productDetails.ProductImages[0]" alt="Product Image" (click)="openImageModal()">
-                </td>
-            </tr>
-            <tr>
-                <td>Price</td>
-                <td>{{ productDetails.Price }}</td>
-            </tr>
-            <tr>
-                <td>Location</td>
-                <td>{{ productDetails.Location }}</td>
-            </tr>
-            <tr>
-                <td>Return Policy (US)</td>
-                <td>
-                    Accepted: {{ productDetails.ReturnPolicy.ReturnsAccepted }}
-                    Within: {{ productDetails.ReturnPolicy.ReturnsWithin }}
-                </td>
-            </tr>
-            <tr>
-                <td>ItemSpecifics (Name)</td>
-                <td>
-                    <ul>
-                        <li *ngFor="let spec of productDetails.ItemSpecifics">{{ spec.name }}: {{ spec.value.join(', ') }}</li>
-                    </ul>
-                </td>
-            </tr>
-            <!-- Other fields... -->
-        </tbody>
-        </table>
+        <div class="tab-content">
+            <!-- Product Tab -->
+            <div *ngIf="activeTab === 'product'">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Product Images</td>
+                            <td>
+                                <!-- Clicking on this image thumbnail will open a modal with all product images -->
+                                <img [src]="productDetails.ProductImages[0]" alt="Product Image" (click)="openImageModal()">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Price</td>
+                            <td>{{ productDetails.Price }}</td>
+                        </tr>
+                        <tr>
+                            <td>Location</td>
+                            <td>{{ productDetails.Location }}</td>
+                        </tr>
+                        <tr>
+                            <td>Return Policy (US)</td>
+                            <td>
+                                Accepted: {{ productDetails.ReturnPolicy.ReturnsAccepted }}
+                                Within: {{ productDetails.ReturnPolicy.ReturnsWithin }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ItemSpecifics (Name)</td>
+                            <td>
+                                <ul>
+                                    <li *ngFor="let spec of productDetails.ItemSpecifics">{{ spec.name }}: {{ spec.value }}</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <!-- Other fields... -->
+                    </tbody>
+                    </table>
+            </div>
+          
+            <!-- Photos Tab -->
+            <div *ngIf="activeTab === 'photos'">
+              <!-- Photos content here -->
+            </div>
+          
+            <!-- Shipping Tab -->
+            <div *ngIf="activeTab === 'shipping'">
+              <!-- Shipping information here -->
+            </div>
+          
+            <!-- Seller Tab -->
+            <div *ngIf="activeTab === 'seller'">
+              <!-- Seller information here -->
+            </div>
+          
+            <!-- Similar Products Tab -->
+            <div *ngIf="activeTab === 'similar'">
+              <!-- Similar products here -->
+            </div>
+          </div>
+        
     </div>
 
    
