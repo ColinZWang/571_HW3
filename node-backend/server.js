@@ -237,7 +237,13 @@ app.get('/product/:itemId', async (req, res) => {
         ReturnPolicy: {
             ReturnsAccepted: item.ReturnPolicy?.ReturnsAccepted,
             ReturnsWithin: item.ReturnPolicy?.ReturnsWithin
-        }
+        },
+        handlingTime: item.HandlingTime,
+        shippingServiceCost: item.ShippingCostSummary?.ShippingServiceCost["__value__"],
+        shipToLocations: item.ShipToLocations,
+        expeditedShipping: item.ShippingCostSummary?.ExpeditedShipping,
+        oneDayShippingAvailable: item.ShippingCostSummary?.OneDayShippingAvailable,
+
     };
 
     console.log(productDetails);

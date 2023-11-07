@@ -226,11 +226,40 @@
             <div *ngIf="activeTab === 'photos'">
               <!-- Photos content here -->
             </div>
-          
+
             <!-- Shipping Tab -->
             <div *ngIf="activeTab === 'shipping'">
-              <!-- Shipping information here -->
+                <h3>Shipping Information</h3>
+                <table class="table">
+                <tbody>
+                    <tr *ngIf="productDetails?.shippingServiceCost?.__value__">
+                        <td>Shipping Cost</td>
+                        <td>{{ productDetails.shippingServiceCost.__value__ }}</td>
+                    </tr>
+                    <tr *ngIf="productDetails?.shipToLocations">
+                        <td>Shipping Locations</td>
+                        <td>{{ productDetails.shipToLocations.join(', ') }}</td>
+                    </tr>
+                    <tr *ngIf="productDetails?.handlingTime">
+                        <td>Handling Time</td>
+                        <td>{{ productDetails.handlingTime }} Day</td>
+                    </tr>
+                    <tr>
+                        <td>Expedited Shipping</td>
+                        <td>{{ productDetails.expeditedShipping }}</td>
+                    </tr>
+                    <tr>
+                        <td>One Day Shipping</td>
+                        <td>{{ productDetails.oneDayShippingAvailable }}</td>
+                    </tr>
+                    <tr *ngIf="productDetails?.ReturnPolicy?.ReturnsAccepted">
+                        <td>Return Accepted</td>
+                        <td>{{ productDetails.ReturnPolicy.ReturnsAccepted }}</td>
+                    </tr>
+                </tbody>
+                </table>
             </div>
+  
           
             <!-- Seller Tab -->
             <div *ngIf="activeTab === 'seller'">
