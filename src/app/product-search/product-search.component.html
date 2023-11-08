@@ -303,7 +303,7 @@
                     </tr>
                     <tr *ngIf="productDetails?.handlingTime">
                         <td>Handling Time</td>
-                        <td>{{ productDetails.handlingTime }} Day</td>
+                        <td>{{ productDetails.handlingTime }} {{ productDetails.handlingTime === 1 ? 'Day' : 'Days' }}</td>
                     </tr>
                     <tr *ngIf="productDetails?.expeditedShipping !== undefined">
                         <td>Expedited Shipping</td>
