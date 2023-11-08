@@ -1,4 +1,4 @@
-runtime: nodejs16  # Choose the runtime that matches the Node.js version you're using.
+runtime: nodejs20  # Choose the runtime that matches the Node.js version you're using.
 
 env: standard
 instance_class: F1  # You can choose a different class based on your needs.

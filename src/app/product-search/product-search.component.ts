@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { WishlistService } from '../wishlist.service'; 
 import { PhotoService } from '../photo.service';
+import { environment } from '../../environments/environment';
+
 
 
 
@@ -87,7 +89,7 @@ export class ProductSearchComponent implements OnInit {
 
     const queryParams = new HttpParams({ fromObject: queryParamsData });
 
-    this.http.get<any>('http://localhost:3000/search', { params: queryParams }).subscribe(
+    this.http.get<any>(`https://webdev3backend.wm.r.appspot.com/search`, { params: queryParams }).subscribe(
       response => {
         this.searchResults = response;
         console.log(response);
@@ -141,8 +143,7 @@ export class ProductSearchComponent implements OnInit {
 
 
   getProductDetails(itemId: string): void {
-    const url = `http://localhost:3000/product/${itemId}`;
-    this.http.get<any>(url).subscribe(
+      this.http.get<any>(`https://webdev3backend.wm.r.appspot.com/product/${itemId}`).subscribe(
       data => {
         this.productDetails = data;
         const clickedItem = this.searchResults.find(item => item.itemId === itemId);

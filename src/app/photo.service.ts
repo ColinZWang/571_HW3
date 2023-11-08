@@ -2,6 +2,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { environment } from '../environments/environment';
+
 
 
 @Injectable({
@@ -10,11 +12,13 @@ import { Injectable } from '@angular/core';
 
 export class PhotoService {
 
+  private backendUrl = "https://webdev3backend.wm.r.appspot.com";
+
   constructor(private http: HttpClient) {}
 
   getPhotos(productTitle: string): Observable<string[]> {
     // Update the URL to wherever your backend is hosted
-    const url = `http://localhost:3000/photos?productTitle=${encodeURIComponent(productTitle)}`;
+    const url = `${this.backendUrl}/photos?productTitle=${encodeURIComponent(productTitle)}`;
     return this.http.get<string[]>(url);
   }
 }

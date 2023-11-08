@@ -18,6 +18,7 @@
     "@angular/platform-browser": "^16.2.0",
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
+    "@popperjs/core": "^2.11.8",
     "angular-svg-round-progressbar": "^11.0.0",
     "body-parser": "^1.20.2",
     "bootstrap": "^5.3.2",
