@@ -1,0 +1,37 @@
+runtime: nodejs16  # Choose the runtime that matches the Node.js version you're using.
+
+env: standard
+instance_class: F1  # You can choose a different class based on your needs.
+
+automatic_scaling:
+  min_idle_instances: 0
+  max_idle_instances: automatic
+
+
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
+
+env_variables:
+  # Set environment variables for your Node.js backend if needed
+  NODE_ENV: 'production'
+
+handlers:
+  # Serve your Node.js backend
+  - url: /api/.*
+    script: auto
+    secure: always
+
+  # Serve your Angular application static files
+  - url: /(.*\.(gif|png|jpg|css|js|ico|woff|woff2|ttf|svg|eot|html|json))
+    static_files: dist/my-app/\1
+    upload: dist/my-app/(.*\.(gif|png|jpg|css|js|ico|woff|woff2|ttf|svg|eot|html|json))
+    secure: always
+
+  - url: /.*
+    static_files: dist/my-app/index.html
+    upload: dist/my-app/index.html
+    secure: always
+
+# ... Any additional handlers or settings ...

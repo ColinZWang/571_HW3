@@ -3,7 +3,7 @@ const axios = require('axios');
 const cors = require('cors');
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 8080;
 
 // eBay credentials
 const EBAY_API_ENDPOINT = 'https://svcs.ebay.com/services/search/FindingService/v1';
@@ -302,6 +302,6 @@ app.get('/photos', async (req, res) => {
 
 
 
-app.listen(port, () => {
-    console.log(`Server listening at http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
 });
